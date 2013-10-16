@@ -28,8 +28,9 @@ class Router
     @routes = []
   end
 
-  def add_route(pattern, method, controller_class, action_name)
-    @routes << Route.new(pattern, method, controller_class, action_name)
+  def add_route(path_string, method, controller_class, action_name)
+    path_regex = Regexp.new("^" + path_string.gsub(/(:([^\/]+))/, '(?<\2>[^/]+)') + "$")
+    @routes << Route.new(path_regex, method, controller_class, action_name)
   end
 
   def draw(&proc)
@@ -37,8 +38,8 @@ class Router
   end
 
   [:get, :post, :put, :delete].each do |http_method|
-    define_method(http_method) do |pattern, controller_class, action_name|
-      @routes << Route.new(pattern, http_method, controller_class, action_name)
+    define_method(http_method) do |path_string, controller_class, action_name|
+      add_route(path_string, http_method, controller_class, action_name)
     end
   end
 
