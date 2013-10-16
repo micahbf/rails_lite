@@ -5,10 +5,10 @@ require_relative 'session'
 class ControllerBase
   attr_reader :params
 
-  def initialize(req, res)
+  def initialize(req, res, router_params)
     @request = req
     @response = res
-    @params = Params.new(req, nil)
+    @params = Params.new(req, router_params)
   end
 
   def session
@@ -16,6 +16,7 @@ class ControllerBase
   end
 
   def already_rendered?
+    @already_built_response || false
   end
 
   def redirect_to(url)
@@ -39,6 +40,8 @@ class ControllerBase
     render_content(rendered, 'text/html')
   end
 
-  def invoke_action(name)
+  def invoke_action(action_name)
+    self.send(action_name)
+    render(action_name) unless already_rendered?
   end
 end
