@@ -1,10 +1,13 @@
-Rails Lite
-==========
+# Rails Lite
 
 Rails Lite is a reimplementation of core Rails functionality from scratch.
 
-ActiveRecord
-------------
+Why? Why not? Writing some of the most important parts of Rails allowed me to take the magic out of Rails and
+understand how it works.
+
+## Implemented functionality
+
+### ActiveRecord
 
 - the basic model model (whoa)
 - assocations 
@@ -17,8 +20,7 @@ ActiveRecord
 - validations
 
 
-Application API
----------------
+### Application API
 
 - `Router`
     - generates new routes
